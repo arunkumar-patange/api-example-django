@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load tz %}
+{% load humanize %}
+{% load humanizeext %}
+{% load staticfiles %}
+
+{% block title %}Welcome Dr{% endblock %}
+{% block metatag %} <meta name="csrf-token" content="{{ csrf_token }}"> {%endblock%}
+{% block jstags %} <script type="text/javascript" async="" src="{% static 'appts.js' %}"></script>{%endblock%}
+
+{% block content %}
+  <div class="row row-buffer">
+    <div class="col-md-6">
+      <h2>Appointments on {% now "jS F Y" %}</h2>
+    </div>
+    <div class="col-md-6">
+      <h3> Today's average wait time {{wait_times|naturaldelta}}, overall ({{overall_wait_times|naturaldelta}})</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="appts-container">
+      {% for each in appts %}
+      <div class="appts {% cycle 'top' 'bottom' %} pull-left">
+        <input type=hidden name='data-appt-id' value={{each.id}}>
+        <a href="/patient/{{each.patient.id}}">
+        {{each.patient.first_name }} {{each.patient.last_name}}
+      </a>
+        <div  class="inline-div">
+        scheduled at {{ each.scheduled_time|strtodate|date:'h:m A' }}
+        </div>
+        <div  class="inline-div">
+          {% include '_appt_select.html' %}
+        </div>
+        <div class="inline-div">
+          {% if each.status = 'Arrived' %}
+            {{ each.arrived_at }}
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

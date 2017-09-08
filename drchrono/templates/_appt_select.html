@@ -1,0 +1,9 @@
+<select class='appt-select form-control' data-appt-id={{each.id}}>
+  {% for status in statuses %}
+    {%if status = each.status%}
+    <option value={{each.patient.id}} selected>{{status}}</option>
+    {%else%}
+    <option value={{each.patient.id}}>{{status}}</option>
+    {%endif%}
+  {% endfor %}
+</select>

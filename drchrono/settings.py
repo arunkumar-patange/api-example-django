@@ -28,6 +28,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# APPS
+APP_DIRS = (
+    'kiosk',
+)
+
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -39,7 +45,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'drchrono',
     'social.apps.django_app.default',
-)
+    'django.contrib.humanize',
+    'bootstrapform',
+) + APP_DIRS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -62,7 +70,12 @@ ROOT_URLCONF = 'drchrono.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates').replace('\\','/'),],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates').replace('\\', '/'),
+        ] + [
+            os.path.join(BASE_DIR, '{}/templates'.format(APP_DIR)).replace('\\', '/')
+            for APP_DIR in APP_DIRS
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,3 +122,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# OAUTH
+CLIENT_ID = 'TxmZjCcbHlYPPbdjuz68ZxlOBX9qwIKgvKWUzq5a'
+CLIENT_SECRET = 'Ea79Ay5wUqs6plZMSA83kTgjW9pKw8sfXpj6BVGgYbRU4Zm2wUr5c42GudMjcNM2t6Y6baY2bVWfMnUq3Q5Ps4fubBMNvH4h0enwe5MM9v5grK8d8wFaLkJadqtvgxPj'
+SOCIAL_AUTH_KEY = CLIENT_ID
+SOCIAL_AUTH_SECRET = CLIENT_SECRET
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/error'
+# SOCIAL_AUTH_DRCHRONO_SCOPE = ["user:write messages:read labs:write patients:write billing:write user:read labs:read patients:read calendar:write labs patients:summary:write patients patients:summary:read user clinical:read billing:read messages:write clinical:write calendar patients:summary calendar:read"] # noqa
+LOGIN_REDIRECT_URL = '/doctor/'
+LOGIN_URL = '/login'
+
+# enable logging
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        }
+    },
+}

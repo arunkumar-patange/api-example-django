@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome Dr{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3>Visit <a href="http://drchrono.com">drchrono</a></h3>
+          <p>
+          Voted #1 mobile electronic health record by doctors five years in a row.
+          Find out why over 93,000 medical professionals trust drchrono platform.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3>Doctor's Page</h3>
+          <p>
+The doctor should also have their own page they can leave open that displays today’s appointments, indicating which patients have checked in and how long they have been waiting. From this screen, the doctor can indicate they are seeing a patient, which stops the “time spent waiting” clock. The doctor should also see the overall average wait time for all patients they have ever seen.
+          </p>
+          {% if user.is_authenticated %}
+            <p><a href="/doctor/appointments" class="btn btn-primary" role="button">Open</a></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3>Kiosk</h3>
+          <p>
+  After the doctor is logged in, a page should be displayed that lets patients check in. A patient with an appointment should first confirm their identity (first/last name maybe SSN) then be able to update their demographic information using the patient chart API endpoint.  Once the they have filled out that information the app can set the appointment status to "Arrived" (Appointment API Docs).
+          </p>
+          {% if user.is_authenticated %}
+            <p><a href="/kiosk/checkin" class="btn btn-primary" role="button">Open</a></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+{% endblock %}

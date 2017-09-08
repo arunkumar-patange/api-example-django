@@ -1,0 +1,17 @@
+{% extends 'kiosk_base.html' %}
+
+{% block title %} kiosk {% endblock %}
+{% load bootstrap %}
+
+
+{% block content %}
+  <div class="col-md-4 col-md-offset-4">
+    <center><h3> Please Check In </h3></center>
+    <form method="post">
+    {% csrf_token %}
+    {{ form|bootstrap }}
+    <button type="submit" class="btn btn-default pull-right">Submit</button>
+  </form>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% block metatag %}
+    {% endblock %}
+    <title>drchrono &nbsp;|&nbsp; {% block title %}{% endblock %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+
+    <link href="{% static 'drchrono.css' %}" rel="stylesheet">
+    {% block jstags %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <div class='header'>
+      <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <div class="logo" onclick="location.href='/doctor';"></div>
+          </div>
+          {% if user.is_authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href=# class="chrono">Dr.{{ user.username }}</a>
+            </li>
+            <li>
+              <a href="{% url 'logout' %}">Logout</a>
+            </li>
+          </ul>
+          {% endif %}
+        </div>
+      </nav>
+
+      {% if not user.is_authenticated %}
+      <center>
+        <div style="margin: 1em;">
+           <strong> Login with
+          <a href="{% url 'social:begin' 'drchrono' %}" class="btn btn-primary btn-lg logo" href="#" role="button">drchrono</a> to access apps.</strong>
+        </div>
+      </center>
+        {#% include '_auth.html' %#}
+      {% endif %}
+    </div>
+    <div class='main'>
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+    {% include 'common/_footer.html' %}
+  </body>
+</html>
